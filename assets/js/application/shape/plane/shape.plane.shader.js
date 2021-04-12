@@ -85,7 +85,7 @@ SHAPE.plane.shader = {
             void main(){
                 vec2 pixel = 1.0 / resolution.xy;
                 vec2 uv = gl_FragCoord.xy / resolution.xy;
-                float distance = distance(uv, pos);
+                float dist = distance(uv, pos);
 
                 vec4 map = texture(previous, uv);
 
@@ -98,7 +98,7 @@ SHAPE.plane.shader = {
                 vec4 left = texture(previous, uv + vec2(-pixel.x, 0.0));
 
                 float current = ((top.x + bottom.x + right.x + left.x) * 0.5 - map.y) * damping;
-                if(distance < minDist) current += 2.0;
+                if(dist < minDist) current += 2.0;
 
                 map.y = map.x;
                 map.x = current;
