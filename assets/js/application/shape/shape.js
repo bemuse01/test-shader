@@ -1,0 +1,4 @@
+const SHAPE = {
+    circle: {},
+    plane: {}
+}
