@@ -44,9 +44,6 @@ new Vue({
 
         // event
         onWindowResize(){
-            WIDTH = window.innerWidth
-            HEIGHT = window.innerHeight
-
             this.resizeThree()
         },
 
