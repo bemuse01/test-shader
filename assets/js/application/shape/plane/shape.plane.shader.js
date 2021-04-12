@@ -108,35 +108,3 @@ SHAPE.plane.shader = {
         `
     }
 }
-
-// if(Math.random() > 0.8) {
-//     const ratio = this.height / this.width
-//     const wSeg = this.param.seg + 1
-//     const hSeg = Math.floor(this.param.seg * ratio) + 1
-
-//     const row = Math.floor(Math.random() * (hSeg - 20) + 10)
-//     const col = Math.floor(Math.random() * (wSeg - 20) + 10)
-//     this.previous[row][col] = 1.0
-// }
-
-// for(let i = 1; i < this.current.length - 1; i++){
-//     for(let j = 1; j < this.current[0].length - 1; j++){
-//         this.current[i][j] = (
-//             this.previous[i - 1][j] + 
-//             this.previous[i + 1][j] + 
-//             this.previous[i][j - 1] +
-//             this.previous[i][j + 1]) / 2 - 
-//             this.current[i][j]
-        
-//         this.current[i][j] = this.current[i][j] * this.param.damping
-
-//         const index = i * this.current[0].length + j
-//         this.attr.opacity[index] = this.current[i][j]
-//     }
-// }
-
-// opacity.needsUpdate = true
-
-// const temp = this.previous
-// this.previous = this.current
-// this.current = temp

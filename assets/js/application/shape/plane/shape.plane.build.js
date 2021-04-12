@@ -1,16 +1,15 @@
 SHAPE.plane.build = class{
-    constructor(group, size, gpuCompute){
-        this.#init(size, gpuCompute)
+    constructor(group, size, renderer){
+        this.#init(size, renderer)
         this.#create()
         this.#add(group)
     }
 
 
     // init
-    #init(size, gpuCompute){
+    #init(size, renderer){
         this.param = new SHAPE.plane.param()
-
-        this.gpuCompute = gpuCompute
+        this.renderer = renderer
 
         this.size = size
         
@@ -24,6 +23,8 @@ SHAPE.plane.build = class{
         this.#initTexture()
     }
     #initTexture(){
+        this.gpuCompute = new THREE.GPUComputationRenderer(this.size.el.w, this.size.el.h, this.renderer)
+
         const previous = this.gpuCompute.createTexture()
 
         SHAPE.plane.method.fillTexture(previous)
@@ -45,32 +46,6 @@ SHAPE.plane.build = class{
         this.previousVariable.wrapT = THREE.RepeatWrapping
 
         this.gpuCompute.init()
-
-        // position = gpuCompute.createTexture();
-        // const dtVelocity = gpuCompute.createTexture();
-        // fillPositionTexture( dtPosition );
-        // fillVelocityTexture( dtVelocity );
-
-        // velocityVariable = gpuCompute.addVariable( "textureVelocity", document.getElementById( 'fragmentShaderVelocity' ).textContent, dtVelocity );
-        // positionVariable = gpuCompute.addVariable( "texturePosition", document.getElementById( 'fragmentShaderPosition' ).textContent, dtPosition );
-
-        // gpuCompute.setVariableDependencies( velocityVariable, [ positionVariable, velocityVariable ] );
-        // gpuCompute.setVariableDependencies( positionVariable, [ positionVariable, velocityVariable ] );
-
-        // positionUniforms = positionVariable.material.uniforms;
-        // velocityUniforms = velocityVariable.material.uniforms;
-
-        // positionUniforms[ "time" ] = { value: 0.0 };
-        // positionUniforms[ "delta" ] = { value: 0.0 };
-        // velocityUniforms[ "time" ] = { value: 1.0 };
-        // velocityUniforms[ "delta" ] = { value: 0.0 };
-        // velocityUniforms[ "testing" ] = { value: 1.0 };
-        // velocityUniforms[ "separationDistance" ] = { value: 1.0 };
-        // velocityUniforms[ "alignmentDistance" ] = { value: 1.0 };
-        // velocityUniforms[ "cohesionDistance" ] = { value: 1.0 };
-        // velocityUniforms[ "freedomFactor" ] = { value: 1.0 };
-        // velocityUniforms[ "predator" ] = { value: new THREE.Vector3() };
-        // velocityVariable.material.defines.BOUNDS = BOUNDS.toFixed( 2 );
     }
 
 
@@ -108,7 +83,7 @@ SHAPE.plane.build = class{
 
 
     // resize
-    resize(size){
+    resize(size, app){
         this.size = size
 
         // this.ratio = this.height / this.width
@@ -117,6 +92,8 @@ SHAPE.plane.build = class{
 
         this.mesh.geometry.dispose() 
         this.mesh.geometry = this.#createGeometry()
+
+        this.#initTexture()
     }
 
 

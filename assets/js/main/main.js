@@ -25,7 +25,9 @@ new Vue({
             this.createObject(OBJECT.app)
         },
         resizeThree(){
-            for(let i in OBJECT) OBJECT[i].resize()
+            const {app} = OBJECT
+
+            for(let i in OBJECT) OBJECT[i].resize({app})
         },
         renderThree(){
             const {app} = OBJECT

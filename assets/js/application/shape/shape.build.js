@@ -1,18 +1,17 @@
 SHAPE.build = class{
     constructor(app){
-        this.#init(app)
-        this.#create()
+        this.#init()
+        this.#create(app)
         this.#add()
     }
 
 
     // init
-    #init(app){
+    #init(){
         this.param = new SHAPE.param()
 
         this.#initGroup()
         this.#initRenderObject()
-        this.#initComputeRenderer(app)
     }
     #initGroup(){
         this.group = {
@@ -44,7 +43,6 @@ SHAPE.build = class{
         }
     }
     #initComputeRenderer({renderer}){
-        this.gpuCompute = new THREE.GPUComputationRenderer(this.size.el.w, this.size.el.h, renderer)
     }
 
 
@@ -57,15 +55,16 @@ SHAPE.build = class{
 
 
     // create
-    #create(){
+    #create({renderer}){
+        
         // this.#createCircle()
-        this.#createPlane()
+        this.#createPlane(renderer)
     }
     #createCircle(){
         new SHAPE.circle.build(this.group.circle)
     }
-    #createPlane(){
-        this.plane = new SHAPE.plane.build(this.group.plane, this.size, this.gpuCompute)
+    #createPlane(renderer){
+        this.plane = new SHAPE.plane.build(this.group.plane, this.size, renderer)
     }
     
 
@@ -96,7 +95,7 @@ SHAPE.build = class{
 
 
     // resize
-    resize(){
+    resize({app}){
         const rect = this.element.getBoundingClientRect()
         const width = rect.right - rect.left
         const height = rect.bottom - rect.top
@@ -116,6 +115,6 @@ SHAPE.build = class{
         }
 
         // this.circle.resize(this.width, this.height)
-        this.plane.resize(this.size)
+        this.plane.resize(this.size, app)
     }
 }
