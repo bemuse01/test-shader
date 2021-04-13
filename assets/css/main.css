@@ -3,7 +3,8 @@
     padding: 0;
 }
 body{
-    background: white;
+    /* background: white; */
+    background: black;
     overflow: hidden;
 }
 div#wrap{

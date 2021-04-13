@@ -83,7 +83,7 @@ SHAPE.plane.build = class{
 
 
     // resize
-    resize(size, app){
+    resize(size){
         this.size = size
 
         // this.ratio = this.height / this.width
@@ -114,6 +114,6 @@ SHAPE.plane.build = class{
 
         this.gpuCompute.compute()
 
-        uniforms['previous'].value = this.gpuCompute.getCurrentRenderTarget(this.previousVariable).texture;
+        uniforms['previous'].value = this.gpuCompute.getCurrentRenderTarget(this.previousVariable).texture
     }
 }

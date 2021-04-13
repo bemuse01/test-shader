@@ -1,4 +1,5 @@
 const SHAPE = {
     circle: {},
-    plane: {}
+    plane: {},
+    plane2: {}
 }
