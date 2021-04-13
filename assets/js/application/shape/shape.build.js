@@ -15,8 +15,8 @@ SHAPE.build = class{
     }
     #initGroup(){
         this.group = {
-            // circle: new THREE.Group(),
-            // plane: new THREE.Group(),
+            circle: new THREE.Group(),
+            plane: new THREE.Group(),
             plane2: new THREE.Group()
         }
 
@@ -59,8 +59,8 @@ SHAPE.build = class{
     #create({renderer}){
         
         // this.#createCircle()
-        // this.#createPlane(renderer)
-        this.#createPlane2(renderer)
+        this.#createPlane(renderer)
+        // this.#createPlane2(renderer)
     }
     #createCircle(){
         new SHAPE.circle.build(this.group.circle)
@@ -95,8 +95,8 @@ SHAPE.build = class{
     }
     #animateObject(){
         // this.circle.animate()
-        // this.plane.animate()
-        this.plane2.animate()
+        this.plane.animate()
+        // this.plane2.animate()
     }
 
 
@@ -121,7 +121,7 @@ SHAPE.build = class{
         }
 
         // this.circle.resize(this.width, this.height)
-        // this.plane.resize(this.size)
-        this.plane2.resize(this.size)
+        this.plane.resize(this.size)
+        // this.plane2.resize(this.size)
     }
 }
