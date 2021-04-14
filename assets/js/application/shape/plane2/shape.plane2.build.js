@@ -105,7 +105,7 @@ SHAPE.plane2.build = class{
 
         const uniforms = this.mesh.material.uniforms
         
-        // this.mapUniforms['time'].value = time * 0.001
+        this.mapUniforms['time'].value = time * 0.001
         // this.mapUniforms['delta'].value = delta * 0.01
 
         this.gpuCompute.compute()
