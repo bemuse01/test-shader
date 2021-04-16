@@ -3,6 +3,8 @@ SHAPE.plane2.build = class{
         this.#init(size, renderer)
         this.#create()
         this.#add(group)
+
+        window.addEventListener('click', () => this.#click())
     }
 
 
@@ -40,6 +42,9 @@ SHAPE.plane2.build = class{
 
         this.mapVariable.wrapS = THREE.RepeatWrapping
         this.mapVariable.wrapT = THREE.RepeatWrapping
+
+        this.slowShader = this.gpuCompute.createShaderMaterial(SHAPE.plane2.shader.slow.fragment, {u_map: {value: null}})
+        this.fastShader = this.gpuCompute.createShaderMaterial(SHAPE.plane2.shader.fast.fragment, {u_map: {value: null}})
 
         this.gpuCompute.init()
     }
@@ -95,6 +100,27 @@ SHAPE.plane2.build = class{
         this.mapUniforms['height'].value = this.size.obj.h
 
         this.#initTexture()
+    }
+
+
+    // click
+    #click(){
+        const currentRenderTarget = this.gpuCompute.getCurrentRenderTarget(this.mapVariable)
+        const alternateRenderTarget = this.gpuCompute.getAlternateRenderTarget(this.mapVariable)
+
+        // for ( let i = 0; i < 10; i ++ ) {
+            this.slowShader.uniforms["u_map"].value = currentRenderTarget.texture
+            this.gpuCompute.doRenderTarget(this.slowShader, alternateRenderTarget)
+
+            this.slowShader.uniforms["u_map"].value = alternateRenderTarget.texture
+            this.gpuCompute.doRenderTarget(this.slowShader, currentRenderTarget)
+
+            // this.fastShader.uniforms["u_map"].value = currentRenderTarget.texture
+            // this.gpuCompute.doRenderTarget(this.fastShader, alternateRenderTarget)
+
+            // this.fastShader.uniforms["u_map"].value = alternateRenderTarget.texture
+            // this.gpuCompute.doRenderTarget(this.fastShader, currentRenderTarget)
+        // }
     }
 
 

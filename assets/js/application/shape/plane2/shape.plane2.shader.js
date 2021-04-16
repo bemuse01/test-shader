@@ -30,6 +30,7 @@ SHAPE.plane2.shader = {
         //         float dist = distance(vec2(0.5, 0.5), v_uv);
 
         //         float opacity = dist <= length(pixel) ? 1.0 : 0.0;
+        //         float opacity = dist <= 0.0 ? 1.0 : 0.0;
 
         //         gl_FragColor = vec4(u_color, opacity);
         //     }
@@ -142,6 +143,40 @@ SHAPE.plane2.shader = {
                 if(m.x >= width * 0.5 || m.x <= width * -0.5) m.z *= -1.0;
                 
                 if(m.y >= height * 0.5 || m.y <= height * -0.5) m.w *= -1.0;
+
+                gl_FragColor = m;
+            }
+        `
+    },
+    slow: {
+        fragment: `
+            uniform sampler2D u_map;
+
+            void main(){
+                vec2 pixel = 1.0 / resolution.xy;
+                vec2 uv = gl_FragCoord.xy / resolution.xy;
+
+                vec4 m = texture(u_map, uv);
+
+                m.z *= 0.5;
+                m.w *= 0.5;
+
+                gl_FragColor = m;
+            }
+        `
+    },
+    fast: {
+        fragment: `
+            uniform sampler2D u_map;
+
+            void main(){
+                vec2 pixel = 1.0 / resolution.xy;
+                vec2 uv = gl_FragCoord.xy / resolution.xy;
+
+                vec4 m = texture(u_map, uv);
+
+                m.z += 1.0 * sign(m.z);
+                m.w += 1.0 * sign(m.w);
 
                 gl_FragColor = m;
             }
