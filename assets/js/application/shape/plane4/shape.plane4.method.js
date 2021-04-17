@@ -1,4 +1,4 @@
-SHAPE.plane2.method = {
+SHAPE.plane4.method = {
     createAttribute(param, size){
         const position = [], coord = []
 
@@ -6,9 +6,6 @@ SHAPE.plane2.method = {
         const h = w
 
         for(let i = 0; i < param.count; i++){
-            // const x = Math.random() * size.w - size.w / 2
-            // const y = Math.random() * size.h - size.h / 2
-
             position.push(0, 0, 0)
 
             const u = (i % w) / w

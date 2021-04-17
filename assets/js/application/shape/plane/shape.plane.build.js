@@ -20,6 +20,8 @@ SHAPE.plane.build = class{
         // this.col = this.param.seg
         // this.row = Math.floor(this.param.seg * this.ratio)
 
+        document.body.style.backgroundColor = 'white'
+
         this.#initTexture()
     }
     #initTexture(){

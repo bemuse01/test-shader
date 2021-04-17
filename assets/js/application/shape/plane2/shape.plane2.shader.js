@@ -1,17 +1,19 @@
 SHAPE.plane2.shader = {
     draw: {
         vertex: `
-            uniform float u_size;
+            // uniform float u_size;
             uniform sampler2D u_map;
+            uniform sampler2D u_size;
             attribute vec2 coord;
 
             void main(){
                 vec3 newPosition = position;
                 vec4 map = texture(u_map, coord);
+                vec4 size = texture(u_size, coord);
 
                 newPosition.xy = map.xy;
 
-                gl_PointSize = u_size;
+                gl_PointSize = size.x;
                 gl_Position = projectionMatrix * modelViewMatrix * vec4(newPosition, 1.0);
             }
         `,
@@ -46,32 +48,35 @@ SHAPE.plane2.shader = {
         `
     },
     map: {
-        // fragment: `
-        //     uniform float time;
-        //     // uniform float delta;
-        //     // uniform float noise;
-        //     uniform float width;
-        //     uniform float height;
+        fragment: `
+            uniform float time;
+            // uniform float delta;
+            // uniform float noise;
+            uniform float width;
+            uniform float height;
+            uniform float mx;
+            uniform float my;
+            uniform float msize;
 
 
-        //     void main(){
-        //         vec2 pixel = 1.0 / resolution.xy;
-        //         vec2 uv = gl_FragCoord.xy / resolution.xy;
+            void main(){
+                vec2 pixel = 1.0 / resolution.xy;
+                vec2 uv = gl_FragCoord.xy / resolution.xy;
 
-        //         vec4 m = texture(map, uv);
+                vec4 m = texture(map, uv);
                 
-        //         m.x += m.z;
-        //         m.y += m.w;
+                m.x += m.z;
+                m.y += m.w;
 
-        //         if(m.x > width * 0.5) m.x = width * -0.5;
-        //         if(m.x < width * -0.5) m.x = width * 0.5;
+                if(m.x > width * 0.5) m.x = width * -0.5;
+                if(m.x < width * -0.5) m.x = width * 0.5;
                 
-        //         if(m.y > height * 0.5) m.y = height * -0.5;
-        //         if(m.y < height * -0.5) m.y = height * 0.5;
+                if(m.y > height * 0.5) m.y = height * -0.5;
+                if(m.y < height * -0.5) m.y = height * 0.5;
 
-        //         gl_FragColor = m;
-        //     }
-        // `
+                gl_FragColor = m;
+            }
+        `
 
 
         // perlin noise
@@ -124,28 +129,52 @@ SHAPE.plane2.shader = {
 
 
         // set boundary
-        fragment: `
-            // uniform float time;
-            // uniform float delta;
-            // uniform float noise;
-            uniform float width;
-            uniform float height;
+        // fragment: `
+        //     // uniform float time;
+        //     // uniform float delta;
+        //     // uniform float noise;
+        //     uniform float width;
+        //     uniform float height;
        
+        //     void main(){
+        //         vec2 pixel = 1.0 / resolution.xy;
+        //         vec2 uv = gl_FragCoord.xy / resolution.xy;
+
+        //         vec4 m = texture(map, uv);
+
+        //         m.x += m.z;
+        //         m.y += m.w;
+
+        //         if(m.x >= width * 0.5 || m.x <= width * -0.5) m.z *= -1.0;
+                
+        //         if(m.y >= height * 0.5 || m.y <= height * -0.5) m.w *= -1.0;
+
+        //         gl_FragColor = m;
+        //     }
+        // `
+    },
+    size: {
+        fragment: `
+            uniform float mx;
+            uniform float my;
+            uniform float mousesize;
+            uniform float maxSize;
+            uniform float minSize;
+
             void main(){
                 vec2 pixel = 1.0 / resolution.xy;
                 vec2 uv = gl_FragCoord.xy / resolution.xy;
 
                 vec4 m = texture(map, uv);
-
-                m.x += m.z;
-                m.y += m.w;
-
-                if(m.x >= width * 0.5 || m.x <= width * -0.5) m.z *= -1.0;
+                vec4 s = texture(size, uv);
                 
-                if(m.y >= height * 0.5 || m.y <= height * -0.5) m.w *= -1.0;
+                float dist = distance(m.xy, vec2(mx, my));
+                float psize = clamp(maxSize - dist / mousesize, minSize, maxSize);
 
-                gl_FragColor = m;
-            }
+                s.x = psize;
+
+                gl_FragColor = s;
+            }  
         `
     },
     slow: {
