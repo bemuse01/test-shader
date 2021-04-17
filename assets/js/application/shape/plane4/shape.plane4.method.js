@@ -6,7 +6,10 @@ SHAPE.plane4.method = {
         const h = w
 
         for(let i = 0; i < param.count; i++){
-            position.push(0, 0, 0)
+            const x = Math.random() * size.w - size.w / 2
+            const y = Math.random() * size.h - size.h / 2
+
+            position.push(x, y, 0)
 
             const u = (i % w) / w
             const v = Math.floor(i / h) / h
@@ -31,6 +34,9 @@ SHAPE.plane4.method = {
             // zw === velocity
             data[index + 2] = Math.random() * 1 - 0.5
             data[index + 3] = Math.random() * -0.5 - 0.5
+
+            // data[index + 2] = Math.random() * 2 - 1
+            // data[index + 3] = Math.random() * 2 - 1
         }
     },
     fillSizeTexture(texture, psize){

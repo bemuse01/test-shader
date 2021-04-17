@@ -26,28 +26,42 @@ SHAPE.plane4.build = class{
         this.gpuCompute = new THREE.GPUComputationRenderer(len, len, this.renderer)
 
         const map = this.gpuCompute.createTexture()
-        const size = this.gpuCompute.createTexture()
+        // const size = this.gpuCompute.createTexture()
 
         SHAPE.plane4.method.fillTexture(map, this.size.obj)
-        SHAPE.plane4.method.fillSizeTexture(size, this.param.size)
+        // SHAPE.plane4.method.fillSizeTexture(size, this.param.size)
 
         this.mapVariable = this.gpuCompute.addVariable('map', SHAPE.plane4.shader.map.fragment, map)
-        this.sizeVariable = this.gpuCompute.addVariable('size', SHAPE.plane4.shader.size.fragment, size)
+        // this.sizeVariable = this.gpuCompute.addVariable('size', SHAPE.plane4.shader.size.fragment, size)
 
         this.gpuCompute.setVariableDependencies(this.mapVariable, [this.mapVariable])
-        this.gpuCompute.setVariableDependencies(this.sizeVariable, [this.mapVariable, this.sizeVariable])
+        // this.gpuCompute.setVariableDependencies(this.sizeVariable, [this.mapVariable, this.sizeVariable])
 
         this.mapUniforms = this.mapVariable.material.uniforms
-        this.sizeUniforms = this.sizeVariable.material.uniforms
+        // this.sizeUniforms = this.sizeVariable.material.uniforms
+
+        const hx = this.size.el.w / 2
+        const hy = this.size.el.h / 2
+
+        const rx = Math.random() * this.size.el.w
+        const ry = Math.random() * this.size.el.h
+
+        const x = (rx - hx) / hx * (this.size.obj.w / 2)
+        const y = (hy - ry) / hy * (this.size.obj.h / 2)
+
+        console.log((rx - hx) / hx, (hy - ry) / hy)
 
         this.mapUniforms['time'] = {value: 0.0}
         this.mapUniforms['delta'] = {value: 0.0}
         this.mapUniforms['width'] = {value: this.size.obj.w}
         this.mapUniforms['height'] = {value: this.size.obj.h}
+        this.mapUniforms['mx'] = {value: null}
+        this.mapUniforms['my'] = {value: null}
+        this.mapUniforms['mousesize'] = {value: this.param.mousesize}
 
-        this.sizeUniforms['mx'] = {value: null}
-        this.sizeUniforms['my'] = {value: null}
-        this.sizeUniforms['mousesize'] = {value: this.param.mousesize}
+        // this.sizeUniforms['mx'] = {value: null}
+        // this.sizeUniforms['my'] = {value: null}
+        // this.sizeUniforms['mousesize'] = {value: this.param.mousesize}
 
         this.gpuCompute.init()
     }
@@ -86,7 +100,7 @@ SHAPE.plane4.build = class{
             uniforms: {
                 u_color: {value: new THREE.Color(this.param.color)},
                 u_map: {value: null},
-                u_size: {value: null}
+                u_size: {value: this.param.size}
             }
         })
     }
@@ -114,8 +128,8 @@ SHAPE.plane4.build = class{
         const x = (event.clientX - hx) / hx * (this.size.obj.w / 2)
         const y = (hy - event.clientY) / hy * (this.size.obj.h / 2)
 
-        this.sizeUniforms['mx'].value = x
-        this.sizeUniforms['my'].value = y
+        this.mapUniforms['mx'].value = x
+        this.mapUniforms['my'].value = y
     }
 
 
@@ -126,12 +140,12 @@ SHAPE.plane4.build = class{
 
         const uniforms = this.mesh.material.uniforms
         
-        // this.mapUniforms['time'].value = time * 0.001
+        this.mapUniforms['time'].value = time * 0.001
         // this.mapUniforms['delta'].value = delta * 0.01
 
         this.gpuCompute.compute()
 
         uniforms['u_map'].value = this.gpuCompute.getCurrentRenderTarget(this.mapVariable).texture
-        uniforms['u_size'].value = this.gpuCompute.getCurrentRenderTarget(this.sizeVariable).texture
+        // uniforms['u_size'].value = this.gpuCompute.getCurrentRenderTarget(this.sizeVariable).texture
     }
 }
