@@ -47,15 +47,15 @@ SHAPE.plane4.shader = {
 
                 if(dist <= mousesize){
                     vec2 nf = normalize(forePos.xy - vec2(mx, my));
-                    vec2 nm = normalize(vec2(mx - 0.0, my - my));
+                    vec2 nm = normalize(vec2(mx, 0));
 
                     float d = dot(nf, nm);
                     float theta = sign(forePos.y - my) * acos(d);
 
-                    float x = cos(theta) * 100.0;
-                    float y = sin(theta) * 100.0;
+                    float x = cos(theta) * mousesize;
+                    float y = sin(theta) * mousesize;
 
-                    m.x = x + mx;
+                    m.x = mx <= 0.0 ? -x + mx : x + mx;
                     m.y = y + my;
                 }else{
                     m.x += m.z;

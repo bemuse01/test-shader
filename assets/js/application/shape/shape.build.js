@@ -60,10 +60,10 @@ SHAPE.build = class{
     // create
     #create({renderer}){
         // this.#createCircle()
-        this.#createPlane(renderer)
+        // this.#createPlane(renderer)
         // this.#createPlane2(renderer)
         // this.#createPlane3(renderer)
-        // this.#createPlane4(renderer)
+        this.#createPlane4(renderer)
     }
     #createCircle(){
         new SHAPE.circle.build(this.group.circle)
@@ -104,10 +104,10 @@ SHAPE.build = class{
     }
     #animateObject(){
         // this.circle.animate()
-        this.plane.animate()
+        // this.plane.animate()
         // this.plane2.animate()
         // this.plane3.animate()
-        // this.plane4.animate()
+        this.plane4.animate()
     }
 
 
@@ -132,9 +132,9 @@ SHAPE.build = class{
         }
 
         // this.circle.resize(this.width, this.height)
-        this.plane.resize(this.size)
+        // this.plane.resize(this.size)
         // this.plane2.resize(this.size)
         // this.plane3.resize(this.size)
-        // this.plane4.resize(this.size)
+        this.plane4.resize(this.size)
     }
 }
