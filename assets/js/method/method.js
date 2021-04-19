@@ -12,5 +12,8 @@ const METHOD = {
     getVisibleWidth(camera, depth){
         const height = this.getVisibleHeight(camera, depth)
         return height * camera.aspect
+    },
+    clamp(x, min, max){
+        return x <= min ? min : x >= max ? max : x
     }
 }

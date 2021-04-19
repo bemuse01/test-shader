@@ -8,6 +8,7 @@ SHAPE.plane4.build = class{
         window.addEventListener('touchmove', (e) => this.#touchmove(e))
         window.addEventListener('touchend', () => this.#touchend())
         window.addEventListener('touchcancel', () => this.#touchcancel())
+        window.addEventListener('orientationchange', () => this.#orientationchange())
     }
 
 
@@ -97,6 +98,9 @@ SHAPE.plane4.build = class{
         return geometry
     }
     #createMaterial(){
+        const max = Math.max(this.size.el.w, this.size.el.h)
+        const size = this.param.size + METHOD.clamp(2 - max / 1000, 0, 2)
+
         return new THREE.ShaderMaterial({
             vertexShader: SHAPE.plane4.shader.draw.vertex,
             fragmentShader: SHAPE.plane4.shader.draw.fragment,
@@ -104,7 +108,7 @@ SHAPE.plane4.build = class{
             uniforms: {
                 u_color: {value: new THREE.Color(this.param.color)},
                 u_map: {value: null},
-                u_size: {value: this.param.size}
+                u_size: {value: size}
             }
         })
     }
@@ -114,6 +118,8 @@ SHAPE.plane4.build = class{
     resize(size){
         this.size = size
 
+        const max = Math.max(this.size.el.w, this.size.el.h)
+        this.mesh.material.uniforms['u_size'].value = this.param.size + METHOD.clamp(2 - max / 1000, 0, 2)
         this.mesh.geometry.dispose() 
         this.mesh.geometry = this.#createGeometry()
 
@@ -121,6 +127,13 @@ SHAPE.plane4.build = class{
         this.mapUniforms['height'].value = this.size.obj.h
 
         this.#initTexture()
+    }
+
+
+    // orientation change
+    #orientationchange(){
+        const max = Math.max(this.size.el.w, this.size.el.h)
+        this.mesh.material.uniforms['u_size'].value = this.param.size + METHOD.clamp(2 - max / 1000, 0, 2)
     }
 
 
