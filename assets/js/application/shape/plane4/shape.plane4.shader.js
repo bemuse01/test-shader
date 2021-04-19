@@ -31,6 +31,7 @@ SHAPE.plane4.shader = {
             uniform float mx;
             uniform float my;
             uniform float mousesize;
+            uniform bool focus;
 
             const float PI = 3.1415926535897932384626433832795;
             const float RADIAN = PI / 180.0;
@@ -45,7 +46,7 @@ SHAPE.plane4.shader = {
                 
                 float dist = distance(forePos.xy, vec2(mx, my));
 
-                if(dist <= mousesize){
+                if(dist <= mousesize && focus){
                     vec2 nf = normalize(forePos.xy - vec2(mx, my));
                     vec2 nm = normalize(vec2(mx, 0));
 

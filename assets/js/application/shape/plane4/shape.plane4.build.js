@@ -6,6 +6,8 @@ SHAPE.plane4.build = class{
 
         window.addEventListener('mousemove', (e) => this.#mousemove(e))
         window.addEventListener('touchmove', (e) => this.#mousemove(e))
+        window.addEventListener('touchend', () => this.#touchend())
+        window.addEventListener('touchcancel', () => this.#touchcancel())
     }
 
 
@@ -59,6 +61,7 @@ SHAPE.plane4.build = class{
         this.mapUniforms['mx'] = {value: null}
         this.mapUniforms['my'] = {value: null}
         this.mapUniforms['mousesize'] = {value: this.param.mousesize}
+        this.mapUniforms['focus'] = {value: false}
 
         // this.sizeUniforms['mx'] = {value: null}
         // this.sizeUniforms['my'] = {value: null}
@@ -123,6 +126,8 @@ SHAPE.plane4.build = class{
 
     // mouse move
     #mousemove(event){
+        this.mapUniforms['focus'].value = true
+
         const cx = event.clientX || event.touches[0].clientX 
         const cy = event.clientY || event.touches[0].clientY
 
@@ -134,6 +139,15 @@ SHAPE.plane4.build = class{
 
         this.mapUniforms['mx'].value = x
         this.mapUniforms['my'].value = y
+    }
+
+
+    // mobile touch end or lost
+    #touchend(){
+        this.mapUniforms['focus'].value = false
+    }
+    #touchcancel(){
+        this.mapUniforms['focus'].value = false
     }
 
 
