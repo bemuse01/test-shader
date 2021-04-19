@@ -123,11 +123,14 @@ SHAPE.plane4.build = class{
 
     // mouse move
     #mousemove(event){
+        const cx = event.clientX || event.touches[0].clientX 
+        const cy = event.clientY || event.touches[0].clientY
+
         const hx = this.size.el.w / 2
         const hy = this.size.el.h / 2
 
-        const x = (event.clientX - hx) / hx * (this.size.obj.w / 2)
-        const y = (hy - event.clientY) / hy * (this.size.obj.h / 2)
+        const x = (cx - hx) / hx * (this.size.obj.w / 2)
+        const y = (hy - cy) / hy * (this.size.obj.h / 2)
 
         this.mapUniforms['mx'].value = x
         this.mapUniforms['my'].value = y
