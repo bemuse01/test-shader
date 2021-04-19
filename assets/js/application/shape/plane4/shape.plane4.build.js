@@ -5,7 +5,7 @@ SHAPE.plane4.build = class{
         this.#add(group)
 
         window.addEventListener('mousemove', (e) => this.#mousemove(e))
-        window.addEventListener('touchmove', (e) => this.#mousemove(e))
+        window.addEventListener('touchmove', (e) => this.#touchmove(e))
         window.addEventListener('touchend', () => this.#touchend())
         window.addEventListener('touchcancel', () => this.#touchcancel())
     }
@@ -128,8 +128,8 @@ SHAPE.plane4.build = class{
     #mousemove(event){
         this.mapUniforms['focus'].value = true
 
-        const cx = event.clientX || event.touches[0].clientX 
-        const cy = event.clientY || event.touches[0].clientY
+        const cx = event.clientX
+        const cy = event.clientY
 
         const hx = this.size.el.w / 2
         const hy = this.size.el.h / 2
@@ -142,7 +142,25 @@ SHAPE.plane4.build = class{
     }
 
 
-    // mobile touch end or lost
+    // touch move
+    #touchmove(event){
+        this.mapUniforms['focus'].value = true
+
+        const cx = event.touches[0].clientX
+        const cy = event.touches[0].clientY
+
+        const hx = this.size.el.w / 2
+        const hy = this.size.el.h / 2
+
+        const x = (cx - hx) / hx * (this.size.obj.w / 2)
+        const y = (hy - cy) / hy * (this.size.obj.h / 2)
+
+        this.mapUniforms['mx'].value = x
+        this.mapUniforms['my'].value = y
+    }
+
+
+    // touch end or lost
     #touchend(){
         this.mapUniforms['focus'].value = false
     }
