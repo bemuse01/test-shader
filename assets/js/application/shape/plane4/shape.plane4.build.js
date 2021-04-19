@@ -5,6 +5,7 @@ SHAPE.plane4.build = class{
         this.#add(group)
 
         window.addEventListener('mousemove', (e) => this.#mousemove(e))
+        window.addEventListener('touchmove', (e) => this.#mousemove(e))
     }
 
 
