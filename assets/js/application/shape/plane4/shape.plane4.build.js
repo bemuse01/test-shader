@@ -5,7 +5,7 @@ SHAPE.plane4.build = class{
         this.#add(group)
 
         window.addEventListener('mousemove', (e) => this.#mousemove(e))
-        window.addEventListener('touchmove', (e) => this.#touchmove(e))
+        window.addEventListener('touchmove', (e) => this.#touchmove(e), {passive: false})
         window.addEventListener('touchend', () => this.#touchend())
         window.addEventListener('touchcancel', () => this.#touchcancel())
         window.addEventListener('orientationchange', () => this.#orientationchange())
@@ -157,6 +157,8 @@ SHAPE.plane4.build = class{
 
     // touch move
     #touchmove(event){
+        event.preventDefault()
+
         this.mapUniforms['focus'].value = true
 
         const cx = event.touches[0].clientX
