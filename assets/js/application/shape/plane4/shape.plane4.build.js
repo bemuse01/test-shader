@@ -44,17 +44,6 @@ SHAPE.plane4.build = class{
         this.mapUniforms = this.mapVariable.material.uniforms
         // this.sizeUniforms = this.sizeVariable.material.uniforms
 
-        const hx = this.size.el.w / 2
-        const hy = this.size.el.h / 2
-
-        const rx = Math.random() * this.size.el.w
-        const ry = Math.random() * this.size.el.h
-
-        const x = (rx - hx) / hx * (this.size.obj.w / 2)
-        const y = (hy - ry) / hy * (this.size.obj.h / 2)
-
-        console.log((rx - hx) / hx, (hy - ry) / hy)
-
         this.mapUniforms['time'] = {value: 0.0}
         this.mapUniforms['delta'] = {value: 0.0}
         this.mapUniforms['width'] = {value: this.size.obj.w}
